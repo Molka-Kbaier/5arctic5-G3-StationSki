@@ -3,14 +3,14 @@ pipeline {
     stages {
         stage("cloning") {
             steps {
-                echo "========cloning========"
+                echo "========cloning with git========"
                 git url: "https://github.com/Molka-Kbaier/5arctic5-G3-StationSki.git",
                     branch: "TamimHmizi_5Arctic5-G3"
             }
         }
         stage("compiling") {
             steps {
-                echo "========compiling========"
+                echo "========compiling with maven========"
                 sh "mvn clean compile"
             }
         }
@@ -18,6 +18,12 @@ pipeline {
             steps {
                 echo "========packaging to Nexus========"
                 sh 'mvn clean deploy -DskipTests'
+            }
+        }
+        stage("Analyzing sonarqube"){
+            steps{
+                 echo "========Analyzing with Sonarqube========"
+                sh 'mvn sonar:sonar'
             }
         }
     }
