@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'molkakbaier_5ARCTIC5_G3', url: 'https://github.com/molkakbaier/repository-name.git'
+                git branch: 'molkakbaier_5ARCTIC5_G3', url: 'https://github.com/Molka-Kbaier/5arctic5-G3-StationSki.git'
             }
         }
 
