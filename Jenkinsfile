@@ -14,21 +14,29 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
-        stage("Analyzing sonarqube"){
-                    steps{
-                         echo "========Analyzing with Sonarqube========"
-                        sh 'mvn sonar:sonar'
-                    }
+        stage("Scan"){
+            steps{
+                echo "========Analyzing with Sonarqube========"
+                withSonarQubeEnv(installationName: 'sonarqube'){
+                    sh 'mvn sonar:sonar'
                 }
-        stage("packaging nexus") {
+            }
+        }
+        stage("Quality Gate"){
+            steps{
+                echo "========Checking Quality Gate========"
+                timeout(time: 2,unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+        /*stage("packaging nexus") {
             steps {
                 echo "========packaging to Nexus========"
                 sh 'mvn clean deploy -DskipTests'
             }
-        }
-
+        }*/
     }
-    
     post {
         always {
             echo "========always========"
