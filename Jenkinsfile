@@ -14,18 +14,19 @@ pipeline {
                 sh "mvn clean compile"
             }
         }
+        stage("Analyzing sonarqube"){
+                    steps{
+                         echo "========Analyzing with Sonarqube========"
+                        sh 'mvn sonar:sonar'
+                    }
+                }
         stage("packaging nexus") {
             steps {
                 echo "========packaging to Nexus========"
                 sh 'mvn clean deploy -DskipTests'
             }
         }
-        stage("Analyzing sonarqube"){
-            steps{
-                 echo "========Analyzing with Sonarqube========"
-                sh 'mvn sonar:sonar'
-            }
-        }
+
     }
     
     post {
