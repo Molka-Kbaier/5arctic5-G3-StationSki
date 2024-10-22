@@ -36,12 +36,12 @@ pipeline {
                 }
             }
         }
-        /*stage("packaging nexus") {
+        stage("Deploying nexus") {
             steps {
-                echo "========packaging to Nexus========"
+                echo "========Deploying to Nexus========"
                 sh 'mvn clean deploy -DskipTests'
             }
-        }*/
+        }
     }
     post {
         always {
