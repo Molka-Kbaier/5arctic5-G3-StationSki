@@ -44,12 +44,12 @@ pipeline {
         }
         stage("Building image"){
             steps{
-                sh "docker build -t tamimhmizi/tamimhmizi_G3_ stationski . "
+                sh "docker build -t tamimhmizi/tamimhmizi_G3_stationski . "
             }
         }
         stage("Pushing to DockerHub"){
             steps{
-                sh "docker push tamimhmizi/tamimhmizi_G3_ stationski"
+                sh "docker push tamimhmizi/tamimhmizi_G3_stationski"
             }
         }
         stage("Running containers"){
