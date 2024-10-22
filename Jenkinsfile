@@ -17,7 +17,7 @@ pipeline {
         stage("Scan"){
             steps{
                 echo "========Analyzing with Sonarqube========"
-                withSonarQubeEnv(installationName: 'sonarqube'){
+                withSonarQubeEnv(installationName: 'sonarqube-server'){
                     sh 'mvn sonar:sonar'
                 }
             }
