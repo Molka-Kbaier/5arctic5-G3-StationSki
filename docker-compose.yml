@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-ski-station
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ski-station-app
+    ports:
+      - "8089:8089"
+    depends_on:
+      - mysql
+    networks:
+      - ski-network
+
+volumes:
+  mysql-data:
+
+networks:
+  ski-network:
