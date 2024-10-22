@@ -34,7 +34,7 @@ class CourseServicesImplTest {
     }
 
     @Test
-    public void testRetrieveAllCourses() {
+     void testRetrieveAllCourses() {
         // Arrange
         List<Course> courses = new ArrayList<>();
         Course course1 = new Course();
@@ -59,7 +59,7 @@ class CourseServicesImplTest {
     }
 
     @Test
-    public void testAddCourse() {
+     void testAddCourse() {
         // Arrange
         Course course = new Course();
         course.setNumCourse(1L);
@@ -78,7 +78,7 @@ class CourseServicesImplTest {
     }
 
     @Test
-    public void testUpdateCourse() {
+     void testUpdateCourse() {
         // Arrange
         Course course = new Course();
         course.setNumCourse(1L);
@@ -97,7 +97,7 @@ class CourseServicesImplTest {
     }
 
     @Test
-    public void testRetrieveCourseFound() {
+     void testRetrieveCourseFound() {
         // Arrange
         Long courseId = 1L;
         Course course = new Course();
@@ -117,7 +117,7 @@ class CourseServicesImplTest {
     }
 
     @Test
-    public void testRetrieveCourseNotFound() {
+     void testRetrieveCourseNotFound() {
         // Arrange
         Long courseId = 1L;
         when(courseRepository.findById(courseId)).thenReturn(Optional.empty());
