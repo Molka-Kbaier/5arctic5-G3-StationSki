@@ -6,7 +6,8 @@ pipeline {
                 echo "========cloning with git========"
                 sh "git config --global http.postBuffer 524288000"
                 git url: "https://github.com/Molka-Kbaier/5arctic5-G3-StationSki.git",
-                    branch: "TamimHmizi_5Arctic5-G3"
+                    branch: "TamimHmizi_5Arctic5-G3",
+                    credentialsId:"github"
             }
         }
         stage("compiling") {
