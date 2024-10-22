@@ -21,6 +21,13 @@ pipeline {
             }
         }
 
+        stage('Wait for MySQL') {
+            steps {
+                // Délai pour laisser MySQL démarrer
+                sh 'sleep 10'
+            }
+        }
+
         stage('Test') {
             steps {
                 script {
