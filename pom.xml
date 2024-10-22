@@ -73,6 +73,7 @@
 	</dependencies>
 
 	<build>
+	<finalName>tamimhmizi_5artic5_g3_stationski</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
