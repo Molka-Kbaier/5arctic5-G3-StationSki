@@ -42,6 +42,22 @@ pipeline {
                 sh 'mvn clean deploy -DskipTests'
             }
         }
+        stage("Building image"){
+            steps{
+                sh "docker build -t tamimhmizi/tamimhmizi_G3_ stationski . "
+            }
+        }
+        stage("Pushing to DockerHub"){
+            steps{
+                sh "docker push tamimhmizi/tamimhmizi_G3_ stationski"
+            }
+        }
+        stage("Running containers"){
+            steps{
+                sh "docker-compose down \
+                docker-compose up -d"
+            }
+        }
     }
     post {
         always {
