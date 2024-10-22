@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tn.esprit.spring.entities.Course;
 import tn.esprit.spring.repositories.ICourseRepository;
 
@@ -15,7 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CourseServicesImplTest {
+class CourseServicesImplTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(CourseServicesImplTest.class);
 
     @InjectMocks
     private CourseServicesImpl courseServices;
@@ -26,6 +30,7 @@ public class CourseServicesImplTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        logger.info("Setting up test for CourseServicesImpl");
     }
 
     @Test
@@ -45,9 +50,12 @@ public class CourseServicesImplTest {
         // Act
         List<Course> result = courseServices.retrieveAllCourses();
 
+        logger.info("Retrieved all courses: {}", result);
+
         // Assert
         assertEquals(2, result.size());
         verify(courseRepository, times(1)).findAll();
+        logger.info("Successfully verified retrieval of all courses");
     }
 
     @Test
@@ -60,10 +68,13 @@ public class CourseServicesImplTest {
         // Act
         Course result = courseServices.addCourse(course);
 
+        logger.info("Added course: {}", result);
+
         // Assert
         assertNotNull(result);
         assertEquals(1L, result.getNumCourse());
         verify(courseRepository, times(1)).save(course);
+        logger.info("Successfully verified addition of course");
     }
 
     @Test
@@ -76,10 +87,13 @@ public class CourseServicesImplTest {
         // Act
         Course result = courseServices.updateCourse(course);
 
+        logger.info("Updated course: {}", result);
+
         // Assert
         assertNotNull(result);
         assertEquals(1L, result.getNumCourse());
         verify(courseRepository, times(1)).save(course);
+        logger.info("Successfully verified update of course");
     }
 
     @Test
@@ -93,10 +107,13 @@ public class CourseServicesImplTest {
         // Act
         Course result = courseServices.retrieveCourse(courseId);
 
+        logger.info("Retrieved course: {}", result);
+
         // Assert
         assertNotNull(result);
         assertEquals(courseId, result.getNumCourse());
         verify(courseRepository, times(1)).findById(courseId);
+        logger.info("Successfully verified retrieval of course found");
     }
 
     @Test
@@ -108,8 +125,11 @@ public class CourseServicesImplTest {
         // Act
         Course result = courseServices.retrieveCourse(courseId);
 
+        logger.info("Attempted to retrieve course with ID: {} - Result: {}", courseId, result);
+
         // Assert
         assertNull(result);
         verify(courseRepository, times(1)).findById(courseId);
+        logger.info("Successfully verified retrieval of course not found");
     }
 }
