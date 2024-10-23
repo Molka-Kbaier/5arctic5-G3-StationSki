@@ -1,27 +1,37 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  mysql:
-    image: mysql:latest
-    container_name: mysql-ski-station
-    environment:
-      MYSQL_ROOT_PASSWORD: mypassword
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-    
-  app:
+  springbootapp:
+    image: springbootapp:latest
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: ski-station-app
     ports:
       - "8089:8089"
     depends_on:
-      - mysql
+      - mysqldb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/stationSki?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: rootpassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_SERVLET_CONTEXT_PATH: /api
+      SERVER_PORT: 8089
+      SPRING_MVC_FORMAT_DATE: yyyy-MM-dd
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  mysqldb:
+    image: mysql:8.0
+    container_name: mysqldb
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: stationSki
+      MYSQL_USER: springuser
+      MYSQL_PASSWORD: springpassword
+    volumes:
+      - dbdata:/var/lib/mysql
 
 volumes:
-  mysql-data:
-
-
+  dbdata:
