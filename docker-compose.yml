@@ -10,9 +10,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
-    networks:
-      - ski-network
-
+    
   app:
     build:
       context: .
@@ -22,11 +20,8 @@ services:
       - "8089:8089"
     depends_on:
       - mysql
-    networks:
-      - ski-network
 
 volumes:
   mysql-data:
 
-networks:
-  ski-network:
+
