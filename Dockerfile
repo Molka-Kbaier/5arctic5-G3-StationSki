@@ -16,4 +16,4 @@ COPY target/tamimhmizi_5artic5_g3_stationski.jar /app/app.jar
 EXPOSE 8089
 
 # Command to run the Spring Boot application, using dockerize to wait for MySQL
-ENTRYPOINT ["dockerize", "-wait", "tcp://mysql-ski-station:3306", "-timeout", "60s", "java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["dockerize", "-wait", "tcp://mysql-ski-station:3306", "-timeout", "120s", "java", "-jar", "/app/app.jar"]
