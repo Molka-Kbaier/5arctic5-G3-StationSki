@@ -31,7 +31,7 @@ public class SkierServicesImpl implements ISkierServices {
 
     @Override
     public Skier addSkier(Skier skier) {
-        switch (skier.getSubscription().getTypeSub()) {
+      /*  switch (skier.getSubscription().getTypeSub()) {
             case ANNUAL:
                 skier.getSubscription().setEndDate(skier.getSubscription().getStartDate().plusYears(1));
                 break;
@@ -42,7 +42,12 @@ public class SkierServicesImpl implements ISkierServices {
                 skier.getSubscription().setEndDate(skier.getSubscription().getStartDate().plusMonths(1));
                 break;
         }
-        return skierRepository.save(skier);
+        return skierRepository.save(skier);*/
+
+        Skier savedSkier = skierRepository.save(skier);
+        System.out.println("Saved skier: " + savedSkier); // Debugging line
+        return savedSkier;
+
     }
 
     @Override
