@@ -1,4 +1,4 @@
 FROM openjdk:8-jdk-alpine
 EXPOSE 8089
-ADD target/stationSki-1.0.jar stationSki.jar
+ADD target/gestion-station-ski-1.0.jar gestion-station-ski.jar
 ENTRYPOINT ["java", "-jar", "stationSki.jar"]
