@@ -21,6 +21,12 @@ pipeline {
                 sh "mvn clean test"
             }
         }
+        stage("Packaging") {
+            steps {
+                echo "========Packaging with maven========"
+                sh "mvn clean package"
+            }
+        }
         stage("Scan"){
             steps{
                 echo "========Analyzing with Sonarqube========"
