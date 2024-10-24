@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-alpine
 WORKDIR /app
 
 # Copy the jar file from the build context into the container
-COPY target/gestion-station-ski-1.2.jar /app/app.jar
+COPY target/tamimhmizi_5artic5_g3_stationski.jar /app/app.jar
 
 # Expose the port that your Spring Boot app will run on (8089)
 EXPOSE 8089
