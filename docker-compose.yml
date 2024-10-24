@@ -19,8 +19,6 @@ services:
       SERVER_PORT: 8089
       SPRING_MVC_FORMAT_DATE: yyyy-MM-dd
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5InnoDBDialect
-    networks:
-      - ski-network
 
   mysqldb:
     image: mysql:8.0
@@ -34,9 +32,7 @@ services:
       MYSQL_PASSWORD: springpassword
     volumes:
       - dbdata:/var/lib/mysql
-    networks:
-      - ski-network
+
 volumes:
   dbdata:
-networks:
-  ski-netowrk:
+
