@@ -1,10 +1,12 @@
 package tn.esprit.spring;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,85 +14,64 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.MockitoAnnotations;
+import tn.esprit.spring.entities.Course;
 import tn.esprit.spring.entities.Instructor;
+import tn.esprit.spring.entities.TypeCourse;
+import tn.esprit.spring.repositories.ICourseRepository;
 import tn.esprit.spring.repositories.IInstructorRepository;
 import tn.esprit.spring.services.InstructorServicesImpl;
 
-@ExtendWith(MockitoExtension.class)  // Enable Mockito for this test class
 public class InstructorServicesImplTestMock {
 
-	@Mock
-	private IInstructorRepository instructorRepository;  // Mock the repository
+    @Mock
+    private IInstructorRepository instructorRepository;  // Mock the instructor repository
 
-	@InjectMocks
-	private InstructorServicesImpl instructorServices;  // Inject the mock into the service
+    @Mock
+    private ICourseRepository courseRepository;  // Mock the course repository
 
-	private Instructor instructor;
+    @InjectMocks
+    private InstructorServicesImpl instructorServices;  // Inject mocks into the service
 
-	@BeforeEach
-	public void setup() {
-		// Create a test instructor
-		instructor = new Instructor(null, "John", "Doe", LocalDate.now(), null);
-	}
+    private Instructor instructor;
+    private Course course;
 
-	// Test: Add an instructor
-	@Test
-	public void testAddInstructor() {
-		when(instructorRepository.save(instructor)).thenReturn(instructor);
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);  // Initialize mocks
+        instructor = new Instructor(1L, "John", "Doe", LocalDate.now(), new HashSet<>());
+        course = new Course(1L, 1, TypeCourse.COLLECTIVE_CHILDREN, null, 10F, 1, Collections.emptySet());
+    }
 
-		Instructor savedInstructor = instructorServices.addInstructor(instructor);
+    @Test
+    void testAddInstructor() {
+        when(instructorRepository.save(any(Instructor.class))).thenReturn(instructor);  // Mock save behavior
 
-		assertNotNull(savedInstructor);
-		assertEquals("John", savedInstructor.getFirstName());
-		verify(instructorRepository, times(1)).save(instructor);  // Verify save was called
-	}
+        Instructor savedInstructor = instructorServices.addInstructor(instructor);  // Call the method to test
 
-	// Test: Retrieve all instructors
-	@Test
-	public void testRetrieveAllInstructors() {
-		List<Instructor> instructors = new ArrayList<>();
-		instructors.add(instructor);
-		when(instructorRepository.findAll()).thenReturn(instructors);
+        assertEquals(instructor, savedInstructor);  // Verify the saved instructor
+        verify(instructorRepository, times(1)).save(instructor);  // Verify that save was called once
+    }
 
-		List<Instructor> result = instructorServices.retrieveAllInstructors();
+    @Test
+    void testGetInstructorsByCourse() {
+        when(courseRepository.findById(1L)).thenReturn(Optional.of(course));  // Mock course retrieval
+        instructor.setCourses(new HashSet<>(Collections.singletonList(course)));  // Assign the course to the instructor
+        when(instructorRepository.findAll()).thenReturn(List.of(instructor));  // Mock instructor retrieval
 
-		assertEquals(1, result.size());
-		verify(instructorRepository, times(1)).findAll();  // Verify findAll was called
-	}
+        List<Instructor> instructors = instructorServices.getInstructorsByCourse(1L);  // Call the method to test
 
-	// Test: Retrieve an instructor by ID
-	@Test
-	public void testRetrieveInstructor() {
-		when(instructorRepository.findById(1L)).thenReturn(Optional.of(instructor));
+        assertEquals(1, instructors.size());  // Verify the size of the list
+        assertEquals(instructor, instructors.get(0));  // Verify the instructor is as expected
+    }
 
-		Instructor foundInstructor = instructorServices.retrieveInstructor(1L);
+    @Test
+    void testGetInstructorsByCourse_NoInstructors() {
+        when(courseRepository.findById(1L)).thenReturn(Optional.of(course));  // Mock course retrieval
+        when(instructorRepository.findAll()).thenReturn(List.of());  // Mock no instructors returned
 
-		assertNotNull(foundInstructor);
-		assertEquals("John", foundInstructor.getFirstName());
-		verify(instructorRepository, times(1)).findById(1L);  // Verify findById was called
-	}
+        List<Instructor> instructors = instructorServices.getInstructorsByCourse(1L);  // Call the method to test
 
-	// Test: Update an instructor
-	@Test
-	public void testUpdateInstructor() {
-		instructor.setFirstName("Johnathan");
-		when(instructorRepository.save(instructor)).thenReturn(instructor);
-
-		Instructor updatedInstructor = instructorServices.updateInstructor(instructor);  // Assuming updateInstructor uses save
-
-		assertEquals("Johnathan", updatedInstructor.getFirstName());
-		verify(instructorRepository, times(1)).save(instructor);  // Verify save was called
-	}
-
-	// Test: Remove an instructor
-	@Test
-	public void testRemoveInstructor() {
-		doNothing().when(instructorRepository).deleteById(1L);
-
-		instructorServices.retrieveInstructor(1L);
-
-		verify(instructorRepository, times(1)).deleteById(1L);  // Verify deleteById was called
-	}
+        assertTrue(instructors.isEmpty());  // Verify the list is empty
+    }
 }

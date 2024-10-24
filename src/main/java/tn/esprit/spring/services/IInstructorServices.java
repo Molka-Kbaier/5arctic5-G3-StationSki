@@ -17,5 +17,5 @@ public interface IInstructorServices {
     Instructor retrieveInstructor(Long numInstructor);
 
     Instructor addInstructorAndAssignToCourse(Instructor instructor, Long numCourse);
-
+    List<Instructor> getInstructorsByCourse(Long numCourse);
 }

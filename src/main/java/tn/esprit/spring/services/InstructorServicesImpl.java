@@ -10,6 +10,7 @@ import tn.esprit.spring.repositories.IInstructorRepository;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -46,6 +47,16 @@ public class InstructorServicesImpl implements IInstructorServices{
         instructor.setCourses(courseSet);
         return instructorRepository.save(instructor);
     }
-
+    @Override
+    // New method to get instructors by course
+    public List<Instructor> getInstructorsByCourse(Long numCourse) {
+        Course course = courseRepository.findById(numCourse).orElse(null);
+        if (course != null) {
+            return instructorRepository.findAll().stream()
+                    .filter(instructor -> instructor.getCourses().contains(course))
+                    .collect(Collectors.toList());
+        }
+        return List.of();
+    }
 
 }
