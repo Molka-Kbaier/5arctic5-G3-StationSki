@@ -45,7 +45,7 @@ class SkierServicesImplTest {
     }
     // Test for retrieveAllSkiers()
 
-/*    @Test
+    @Test
     void  testRetrieveAllSkiers() {
 
         List<Skier> mockSkiers = Arrays.asList(new Skier(), new Skier());
@@ -56,7 +56,7 @@ class SkierServicesImplTest {
         // Then
         assertEquals(20, result.size());
        // verify(skierRepository, times(1)).findAll();
-    }*/
+    }
 
     @Test
     // Test for addSkier()
